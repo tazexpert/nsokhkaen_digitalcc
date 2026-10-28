@@ -109,6 +109,7 @@ try {
 
         out(['center' => [
             'id'          => (int)$c['id'],
+            'code'        => $c['code'],
             'name'        => $c['name'],
             'center_type' => $c['center_type'],
             'address'     => $c['address'],
@@ -135,7 +136,7 @@ try {
 
     /* ----- รายชื่อศูนย์ทั้งหมด ----- */
     $rows = $pdo->query(
-        "SELECT c.id, c.name, c.center_type, c.subdistrict, c.district, c.lat, c.lng, c.phone, c.cover_image,
+        "SELECT c.id, c.code, c.name, c.center_type, c.subdistrict, c.district, c.lat, c.lng, c.phone, c.cover_image,
                 (SELECT file FROM center_images ci WHERE ci.center_id = c.id ORDER BY ci.id LIMIT 1) AS first_image,
                 (SELECT COUNT(*) FROM activities a WHERE a.center_id = c.id) AS activity_count,
                 (SELECT COALESCE(SUM(participants),0) FROM activities a WHERE a.center_id = c.id) AS participant_sum,
@@ -146,6 +147,7 @@ try {
 
     $centers = array_map(fn($r) => [
         'id'             => (int)$r['id'],
+        'code'           => $r['code'],
         'name'           => $r['name'],
         'center_type'    => $r['center_type'],
         'subdistrict'    => $r['subdistrict'],

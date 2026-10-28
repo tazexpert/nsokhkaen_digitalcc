@@ -24,7 +24,12 @@
    ```bash
    mysql -u root -p < database/schema.sql
    ```
-   (ไม่บังคับ) ใส่ข้อมูลตัวอย่าง: `mysql -u root -p < database/sample_data.sql`
+   นำเข้าข้อมูลศูนย์จริงปี 2569 (46 ศูนย์ พร้อมผู้ดูแล):
+   ```bash
+   mysql -u root -p < database/import_centers_2569.sql
+   ```
+   ไฟล์นี้รันซ้ำได้ (อ้างอิงรหัสศูนย์ ไม่สร้างข้อมูลซ้ำ) และใช้กับฐานข้อมูลเดิมที่ยังไม่มีคอลัมน์รหัสศูนย์ได้
+   (ไม่บังคับ) ข้อมูลตัวอย่างสำหรับทดลอง: `database/sample_data.sql` — ไม่ต้องใช้ถ้านำเข้าข้อมูลจริงแล้ว
 3. แก้ไขค่าการเชื่อมต่อใน `config.php` (หรือกำหนด environment `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`)
 4. ให้เว็บเซิร์ฟเวอร์เขียนโฟลเดอร์ `uploads/` ได้ เช่น `chmod -R 775 uploads`
 5. เปิด `http://your-host/admin/` แล้วเข้าสู่ระบบด้วย **admin / admin1234** — เปลี่ยนรหัสผ่านทันทีที่เมนู "บัญชีผู้ใช้"

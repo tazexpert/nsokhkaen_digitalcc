@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS users (
 -- ศูนย์ดิจิทัลชุมชน
 CREATE TABLE IF NOT EXISTS centers (
   id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  code          VARCHAR(30)  NULL,                  -- รหัสศูนย์ เช่น ONDE0728
   name          VARCHAR(255) NOT NULL,
   center_type   VARCHAR(100) NOT NULL DEFAULT '',   -- เช่น ศูนย์ในโรงเรียน / อบต. / กศน.
   address       VARCHAR(255) NOT NULL DEFAULT '',
@@ -39,6 +40,7 @@ CREATE TABLE IF NOT EXISTS centers (
   is_active     TINYINT(1)   NOT NULL DEFAULT 1,
   created_at    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_code (code),
   KEY idx_district (district)
 ) ENGINE=InnoDB;
 

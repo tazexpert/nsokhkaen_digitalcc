@@ -4,7 +4,7 @@ require_login();
 $pdo = db();
 $id = int_param('id');
 
-$fields = ['name', 'center_type', 'address', 'village', 'subdistrict', 'district', 'postcode',
+$fields = ['code', 'name', 'center_type', 'address', 'village', 'subdistrict', 'district', 'postcode',
            'phone', 'email', 'facebook', 'open_hours', 'services', 'description'];
 $c = array_fill_keys($fields, '') + ['lat' => null, 'lng' => null, 'cover_image' => '', 'is_active' => 1, 'province' => PROVINCE];
 
@@ -45,6 +45,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($c['name'] === '') {
         $errors[] = 'กรุณากรอกชื่อศูนย์';
     }
+    if ($c['code'] !== '') {
+        $st = $pdo->prepare('SELECT COUNT(*) FROM centers WHERE code = ? AND id <> ?');
+        $st->execute([$c['code'], $id]);
+        if ($st->fetchColumn()) {
+            $errors[] = 'รหัสศูนย์ ' . $c['code'] . ' มีอยู่แล้ว';
+        }
+    }
     if (post('lat') !== '' && $c['lat'] === null || post('lng') !== '' && $c['lng'] === null) {
         $errors[] = 'พิกัด lat/long ไม่ถูกต้อง';
     }
@@ -66,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $pdo->beginTransaction();
             $data = array_intersect_key($c, array_flip($fields));
+            $data['code'] = $data['code'] !== '' ? $data['code'] : null; // รหัสว่าง = NULL (ไม่ชน UNIQUE)
             $data += ['lat' => $c['lat'], 'lng' => $c['lng'], 'is_active' => $c['is_active']];
             $oldCover = $c['cover_image'];
             if ($cover) {
@@ -143,7 +151,9 @@ require __DIR__ . '/partials/header.php';
     <div class="card mb-3">
       <div class="card-header"><strong><i class="bi bi-info-circle"></i> ข้อมูลศูนย์</strong></div>
       <div class="card-body row g-3">
-        <div class="col-12"><label class="form-label">ชื่อศูนย์ <span class="text-danger">*</span></label>
+        <div class="col-md-4"><label class="form-label">รหัสศูนย์</label>
+          <input name="code" class="form-control" maxlength="30" value="<?= h($c['code']) ?>" placeholder="เช่น ONDE0728"></div>
+        <div class="col-md-8"><label class="form-label">ชื่อศูนย์ <span class="text-danger">*</span></label>
           <input name="name" class="form-control" required value="<?= h($c['name']) ?>" placeholder="เช่น ศูนย์ดิจิทัลชุมชน อบต.บ้านค้อ"></div>
         <div class="col-md-6"><label class="form-label">ประเภทหน่วยงานที่ตั้ง</label>
           <input name="center_type" class="form-control" list="types" value="<?= h($c['center_type']) ?>">

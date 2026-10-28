@@ -33,8 +33,8 @@ $noLoc = !empty($_GET['nolocation']);
 $where = [];
 $params = [];
 if ($q !== '') {
-    $where[] = '(c.name LIKE ? OR c.subdistrict LIKE ? OR c.address LIKE ?)';
-    array_push($params, "%$q%", "%$q%", "%$q%");
+    $where[] = '(c.name LIKE ? OR c.code LIKE ? OR c.subdistrict LIKE ? OR c.address LIKE ?)';
+    array_push($params, "%$q%", "%$q%", "%$q%", "%$q%");
 }
 if ($district !== '') {
     $where[] = 'c.district = ?';
@@ -59,7 +59,7 @@ require __DIR__ . '/partials/header.php';
 <div class="card">
   <div class="card-header">
     <form class="row g-2 align-items-center">
-      <div class="col-md-5"><input name="q" class="form-control" placeholder="ค้นหาชื่อศูนย์ / ตำบล / ที่อยู่" value="<?= h($q) ?>"></div>
+      <div class="col-md-5"><input name="q" class="form-control" placeholder="ค้นหารหัส / ชื่อศูนย์ / ตำบล / ที่อยู่" value="<?= h($q) ?>"></div>
       <div class="col-md-3">
         <select name="district" class="form-select">
           <option value="">ทุกอำเภอ</option>
@@ -80,7 +80,7 @@ require __DIR__ . '/partials/header.php';
           <td><?php if ($r['cover_image']): ?><img src="../<?= h(upload_url($r['cover_image'])) ?>" class="thumb" alt=""><?php else: ?><span class="thumb thumb-empty"><i class="bi bi-image"></i></span><?php endif; ?></td>
           <td><a href="center_form.php?id=<?= (int)$r['id'] ?>" class="fw-semibold text-decoration-none"><?= h($r['name']) ?></a>
             <?php if (!$r['is_active']): ?><span class="badge text-bg-secondary">ซ่อน</span><?php endif; ?>
-            <div class="small text-muted"><?= h(trim('ต.' . $r['subdistrict'] . ' ' . $r['center_type'])) ?></div></td>
+            <div class="small text-muted"><?= $r['code'] ? '<span class="badge text-bg-light border">' . h($r['code']) . '</span> ' : '' ?><?= h(trim('ต.' . $r['subdistrict'] . ' ' . $r['center_type'])) ?></div></td>
           <td><?= h($r['district']) ?></td>
           <td class="text-center"><?= $r['lat'] !== null && $r['lng'] !== null ? '<i class="bi bi-geo-alt-fill text-success" title="' . h($r['lat'] . ', ' . $r['lng']) . '"></i>' : '<i class="bi bi-geo-alt text-danger" title="ยังไม่ระบุพิกัด"></i>' ?></td>
           <td class="text-center"><?= (int)$r['staff_count'] ?></td>

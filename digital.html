@@ -35,7 +35,7 @@
     <p class="lead">ค้นหาศูนย์ใกล้บ้าน ดูที่ตั้งบนแผนที่ ข้อมูลผู้ดูแล และกิจกรรมที่จัดร่วมกับศูนย์ดิจิทัลชุมชนทั่วจังหวัดขอนแก่น</p>
     <form class="search-bar" id="searchForm" role="search">
       <label class="sr-only" for="q">ค้นหา</label>
-      <input id="q" type="search" placeholder="ค้นหาชื่อศูนย์ ตำบล หรือผู้ดูแล…" autocomplete="off">
+      <input id="q" type="search" placeholder="ค้นหาชื่อศูนย์ รหัส ตำบล หรือผู้ดูแล…" autocomplete="off">
       <label class="sr-only" for="district">อำเภอ</label>
       <select id="district"><option value="">ทุกอำเภอ</option></select>
       <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i><span>ค้นหา</span></button>
@@ -140,7 +140,7 @@
     return state.all.filter(c =>
       (!state.district || c.district === state.district) &&
       (!state.type || c.center_type === state.type) &&
-      (!q || [c.name, c.subdistrict, c.district, c.staff_name, c.center_type].join(' ').toLowerCase().includes(q)));
+      (!q || [c.code, c.name, c.subdistrict, c.district, c.staff_name, c.center_type].join(' ').toLowerCase().includes(q)));
   }
 
   function render(fitMap) {

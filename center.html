@@ -76,6 +76,7 @@
       <h1>${esc(c.name)}</h1>
       <div class="loc"><i class="bi bi-geo-alt-fill"></i> ${esc([c.subdistrict && 'ต.' + c.subdistrict, c.district && 'อ.' + c.district, 'จ.' + (c.province || 'ขอนแก่น')].filter(Boolean).join(' '))}</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+        ${c.code ? `<span class="chip"><i class="bi bi-hash"></i> ${esc(c.code)}</span>` : ''}
         ${c.center_type ? `<span class="chip"><i class="bi bi-bookmark"></i> ${esc(c.center_type)}</span>` : ''}
         <span class="chip"><i class="bi bi-calendar-check"></i> ${fmt(c.activities.length)} กิจกรรม</span>
         ${totalPeople ? `<span class="chip"><i class="bi bi-people"></i> ผู้เข้าร่วม ${fmt(totalPeople)} คน</span>` : ''}
