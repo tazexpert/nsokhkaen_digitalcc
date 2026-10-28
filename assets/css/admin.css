@@ -1,0 +1,52 @@
+:root{--brand:#0f6cbd;--brand-2:#14b8a6;--ink:#1f2937;--side:#0b1f3a}
+body{font-family:'Sarabun',system-ui,sans-serif;background:#f3f6fa;color:var(--ink)}
+h1,h2,h3,h4,h5,.brand,.stat-num,.btn,.card-header{font-family:'Prompt','Sarabun',sans-serif}
+.admin-wrap{display:flex;min-height:100vh}
+.sidebar{width:248px;flex-shrink:0;background:var(--side);color:#cbd5e1;padding:20px 14px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar .brand{display:flex;gap:10px;align-items:center;color:#fff;text-decoration:none;margin-bottom:26px;padding:0 6px}
+.sidebar .brand small{display:block;font-size:.78rem;color:#94a3b8;font-weight:400}
+.brand-mark{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;font-size:1.2rem}
+.brand-mark.lg{width:64px;height:64px;border-radius:18px;font-size:1.9rem}
+.sidebar nav a{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:10px;color:#cbd5e1;text-decoration:none;margin-bottom:2px}
+.sidebar nav a:hover{background:rgba(255,255,255,.06);color:#fff}
+.sidebar nav a.active{background:var(--brand);color:#fff}
+.sidebar hr{border-color:rgba(255,255,255,.12)}
+.content{flex:1;min-width:0}
+.topbar{display:flex;gap:12px;align-items:center;padding:14px 28px;background:#fff;border-bottom:1px solid #e5e9f0;position:sticky;top:0;z-index:500}
+.content-body{padding:24px 28px 60px}
+.card{border:1px solid #e5e9f0;border-radius:14px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+.card-header{background:#fff;border-bottom:1px solid #eef1f5;padding:14px 18px;border-radius:14px 14px 0 0!important}
+.card-footer{background:#fafbfd}
+.btn-primary{background:var(--brand);border-color:var(--brand)}
+.stat-card{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid #e5e9f0;border-radius:14px;padding:18px}
+.stat-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:12px;font-size:1.35rem}
+.stat-num{font-size:1.6rem;font-weight:600;line-height:1.1}
+.stat-label{color:#64748b;font-size:.9rem}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.bar-label{width:110px;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:10px;background:#eef2f7;border-radius:6px;overflow:hidden}
+.bar-fill{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-2));border-radius:6px}
+.bar-val{width:28px;text-align:right;font-weight:600}
+.thumb{width:56px;height:42px;object-fit:cover;border-radius:8px;display:inline-grid;place-items:center}
+.thumb-empty{background:#eef2f7;color:#94a3b8}
+.picker-map{height:320px;border-radius:12px;border:1px solid #e5e9f0}
+.cover-preview{max-height:220px;width:100%;object-fit:cover}
+.preview-grid{display:flex;flex-wrap:wrap;gap:8px}
+.preview-grid img{width:96px;height:72px;object-fit:cover;border-radius:8px;border:2px solid #dbeafe}
+.gallery-admin{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.gallery-item{background:#f8fafc;border:1px solid #e5e9f0;border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:6px}
+.gallery-item img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px}
+.gallery-item .del{font-size:.85rem;color:#dc2626;cursor:pointer}
+.staff-admin{display:flex;gap:12px;align-items:center;border:1px solid #e5e9f0;border-radius:12px;padding:12px;background:#fafbfd}
+.staff-admin img,.staff-admin .avatar-empty{width:64px;height:64px;border-radius:50%;object-fit:cover}
+.avatar-empty{display:inline-grid;place-items:center;background:#e2e8f0;color:#94a3b8;font-size:1.8rem}
+.staff-photo-lg{width:160px;height:160px;border-radius:50%;object-fit:cover;display:inline-grid;place-items:center;font-size:4rem}
+.sticky-actions{position:sticky;bottom:0;background:linear-gradient(transparent,#f3f6fa 30%);padding:18px 0 8px;display:flex;gap:8px;z-index:400}
+.login-page{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 20% 20%,#14b8a633,transparent 40%),radial-gradient(circle at 80% 80%,#0f6cbd33,transparent 40%),#0b1f3a;padding:16px}
+.login-card{background:#fff;border-radius:20px;padding:36px;width:100%;max-width:400px;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+@media (max-width:991.98px){
+  .sidebar{position:fixed;left:-260px;z-index:1000;transition:left .2s}
+  .sidebar.open{left:0;box-shadow:0 0 40px rgba(0,0,0,.4)}
+  .content-body{padding:16px}
+  .topbar{padding:12px 16px}
+}
