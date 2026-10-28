@@ -39,7 +39,7 @@ require __DIR__ . '/partials/header.php';
 
 <?php if ((int)$stats['no_location'] > 0): ?>
   <div class="alert alert-warning"><i class="bi bi-exclamation-triangle"></i>
-    มี <?= (int)$stats['no_location'] ?> ศูนย์ที่ยังไม่ได้ระบุพิกัด lat/long จึงยังไม่แสดงบนแผนที่ — <a href="centers.php?nolocation=1">ดูรายการ</a></div>
+    มี <?= (int)$stats['no_location'] ?> ศูนย์ที่ยังไม่ได้ระบุพิกัด lat/long จึงยังไม่แสดงบนแผนที่ — <a href="geocode.php" class="alert-link">ค้นหาพิกัดอัตโนมัติ</a> · <a href="centers.php?nolocation=1">ดูรายการ</a></div>
 <?php endif; ?>
 
 <div class="row g-3">
