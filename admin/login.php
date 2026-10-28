@@ -37,6 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>เข้าสู่ระบบ · ระบบจัดการศูนย์ดิจิทัลชุมชน</title>
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -45,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="login-page">
   <form method="post" class="login-card">
     <div class="text-center mb-4">
-      <span class="brand-mark lg"><i class="bi bi-wifi"></i></span>
+      <img class="brand-mark lg" src="../assets/img/logo.png" alt="โลโก้ศูนย์ดิจิทัลชุมชน">
       <h1 class="h4 mt-3 mb-1">ระบบบริหารจัดการ</h1>
       <p class="text-muted mb-0">ศูนย์ดิจิทัลชุมชน จังหวัด<?= h(PROVINCE) ?></p>
     </div>

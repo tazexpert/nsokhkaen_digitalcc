@@ -18,7 +18,7 @@ img{max-width:100%;display:block}
 .nav .container{display:flex;align-items:center;gap:20px;height:66px}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:600;line-height:1.15}
 .logo small{display:block;font-weight:400;font-size:.78rem;color:var(--muted)}
-.logo-mark{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--brand),var(--teal));font-size:1.2rem}
+.logo-mark{height:42px;width:auto;flex-shrink:0;object-fit:contain}
 .nav-links{display:flex;gap:4px;margin-left:auto}
 .nav-links a{padding:8px 14px;border-radius:10px;text-decoration:none;color:var(--ink);font-size:.95rem}
 .nav-links a:hover{background:#eef4fc;color:var(--brand)}

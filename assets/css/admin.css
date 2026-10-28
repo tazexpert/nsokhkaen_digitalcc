@@ -5,8 +5,8 @@ h1,h2,h3,h4,h5,.brand,.stat-num,.btn,.card-header{font-family:'Prompt','Sarabun'
 .sidebar{width:248px;flex-shrink:0;background:var(--side);color:#cbd5e1;padding:20px 14px;position:sticky;top:0;height:100vh;overflow-y:auto}
 .sidebar .brand{display:flex;gap:10px;align-items:center;color:#fff;text-decoration:none;margin-bottom:26px;padding:0 6px}
 .sidebar .brand small{display:block;font-size:.78rem;color:#94a3b8;font-weight:400}
-.brand-mark{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;font-size:1.2rem}
-.brand-mark.lg{width:64px;height:64px;border-radius:18px;font-size:1.9rem}
+.brand-mark{height:40px;width:auto;flex-shrink:0;object-fit:contain}
+.brand-mark.lg{height:84px}
 .sidebar nav a{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:10px;color:#cbd5e1;text-decoration:none;margin-bottom:2px}
 .sidebar nav a:hover{background:rgba(255,255,255,.06);color:#fff}
 .sidebar nav a.active{background:var(--brand);color:#fff}

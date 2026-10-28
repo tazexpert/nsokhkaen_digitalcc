@@ -38,6 +38,8 @@ $typeSel = visit_type_option((string)$s['center_type']);
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>แบบฟอร์มการตรวจเยี่ยม · <?= h($s['name']) ?></title>
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 <style>
@@ -85,6 +87,7 @@ $typeSel = visit_type_option((string)$s['center_type']);
 </div>
 
 <div class="page">
+  <img src="../assets/img/logo.png" alt="" style="display:block;height:54px;margin:0 auto 6px">
   <h1>แบบฟอร์มการตรวจเยี่ยมศูนย์ดิจิทัลชุมชน</h1>
   <div class="sub">จังหวัด<?= h(PROVINCE) ?></div>
   <div class="right">วันที่ตรวจเยี่ยม <?= $fill(sprintf('%d/%d/%d', $dd, $m, $y + 543)) ?> เวลา <?= $fill($v['visit_time'] ? substr($v['visit_time'], 0, 5) : '') ?> น.</div>

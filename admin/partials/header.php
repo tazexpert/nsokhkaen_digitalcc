@@ -16,6 +16,8 @@ $nav = [
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= h($pageTitle) ?> · ระบบจัดการศูนย์ดิจิทัลชุมชน</title>
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -27,7 +29,7 @@ $nav = [
 <div class="admin-wrap">
   <aside class="sidebar" id="sidebar">
     <a class="brand" href="index.php">
-      <span class="brand-mark"><i class="bi bi-wifi"></i></span>
+      <img class="brand-mark" src="../assets/img/logo.png" alt="">
       <span><strong>Digital Community</strong><small>จังหวัด<?= h(PROVINCE) ?></small></span>
     </a>
     <nav>
