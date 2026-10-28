@@ -35,3 +35,6 @@ CREATE TABLE IF NOT EXISTS visits (
   CONSTRAINT fk_visit_center FOREIGN KEY (center_id) REFERENCES centers(id) ON DELETE CASCADE,
   CONSTRAINT fk_visit_act FOREIGN KEY (activity_id) REFERENCES activities(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
+
+-- เปลี่ยนชื่อหน่วยงาน กศน. เป็น สกร. (สำนักงานส่งเสริมการเรียนรู้)
+UPDATE centers SET center_type = 'สกร.' WHERE center_type = 'กศน.';

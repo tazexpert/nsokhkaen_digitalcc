@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS centers (
   id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   code          VARCHAR(30)  NULL,                  -- รหัสศูนย์ เช่น ONDE0728
   name          VARCHAR(255) NOT NULL,
-  center_type   VARCHAR(100) NOT NULL DEFAULT '',   -- เช่น ศูนย์ในโรงเรียน / อบต. / กศน.
+  center_type   VARCHAR(100) NOT NULL DEFAULT '',   -- เช่น ศูนย์ในโรงเรียน / อบต. / สกร.
   house_no      VARCHAR(30)  NOT NULL DEFAULT '',   -- เลขที่
   moo           VARCHAR(10)  NOT NULL DEFAULT '',   -- หมู่ที่
   address       VARCHAR(255) NOT NULL DEFAULT '',   -- ที่อยู่เพิ่มเติม / ถนน
