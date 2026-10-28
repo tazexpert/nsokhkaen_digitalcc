@@ -6,6 +6,7 @@ $active = $active ?? '';
 $nav = [
     'dashboard'  => ['index.php', 'bi-speedometer2', 'ภาพรวม'],
     'centers'    => ['centers.php', 'bi-building', 'ศูนย์ดิจิทัลชุมชน'],
+    'visits'     => ['visits.php', 'bi-clipboard-check', 'ตรวจเยี่ยมศูนย์'],
     'activities' => ['activities.php', 'bi-calendar-event', 'กิจกรรม'],
     'account'    => ['account.php', 'bi-person-gear', 'บัญชีผู้ใช้'],
 ];

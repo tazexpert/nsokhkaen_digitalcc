@@ -57,9 +57,19 @@ document.querySelectorAll('input[type=file][data-preview]').forEach(input => {
   });
   document.getElementById('btnMyLocation')?.addEventListener('click', () => {
     if (!navigator.geolocation) return alert('เบราว์เซอร์ไม่รองรับการระบุตำแหน่ง');
+    const info = document.getElementById('gpsInfo');
+    if (info) info.textContent = 'กำลังระบุตำแหน่ง GPS…';
     navigator.geolocation.getCurrentPosition(
-      p => { place(p.coords.latitude, p.coords.longitude, true); setInputs(p.coords.latitude, p.coords.longitude); },
-      () => alert('ไม่สามารถระบุตำแหน่งได้')
+      p => {
+        place(p.coords.latitude, p.coords.longitude, true);
+        setInputs(p.coords.latitude, p.coords.longitude);
+        if (info) {
+          const acc = Math.round(p.coords.accuracy);
+          info.innerHTML = `ได้ตำแหน่งแล้ว (คลาดเคลื่อนประมาณ ±${acc} ม.)` + (acc > 50 ? ' — <b class="text-danger">ค่อนข้างคลาดเคลื่อน ลองออกไปที่โล่งแล้วกดใหม่ หรือลากหมุดปรับเอง</b>' : '');
+        }
+      },
+      e => { if (info) info.textContent = ''; alert('ไม่สามารถระบุตำแหน่งได้: ' + (e.code === 1 ? 'ไม่ได้อนุญาตให้เข้าถึงตำแหน่ง (ต้องเปิดเว็บผ่าน https)' : e.message)); },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
     );
   });
   document.getElementById('btnClearLoc')?.addEventListener('click', () => {
@@ -67,4 +77,48 @@ document.querySelectorAll('input[type=file][data-preview]').forEach(input => {
     if (marker) { map.removeLayer(marker); marker = null; }
   });
   setTimeout(() => map.invalidateSize(), 200);
+})();
+
+// ย่อรูปในเบราว์เซอร์ก่อนอัปโหลด (ภาพจากมือถือมักใหญ่เกินขีดจำกัดของเซิร์ฟเวอร์)
+(function () {
+  const MAX = 1600, QUALITY = 0.85;
+  if (typeof DataTransfer === 'undefined') return;
+  function shrink(file) {
+    return new Promise(resolve => {
+      if (!/^image\/(jpeg|png|webp)$/.test(file.type) || file.size < 400 * 1024) return resolve(file);
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        const r = Math.min(1, MAX / Math.max(img.width, img.height));
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.width * r);
+        c.height = Math.round(img.height * r);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        c.toBlob(b => resolve(b && b.size < file.size
+          ? new File([b], file.name.replace(/\.\w+$/, '') + '.jpg', { type: 'image/jpeg', lastModified: Date.now() })
+          : file), 'image/jpeg', QUALITY);
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+      img.src = url;
+    });
+  }
+  document.querySelectorAll('input[type=file][accept^="image"]').forEach(input => {
+    input.addEventListener('change', async () => {
+      if (input.dataset.shrinking) return;
+      const form = input.form;
+      const btns = form ? form.querySelectorAll('button:not([type=button])') : [];
+      btns.forEach(b => b.disabled = true);
+      input.dataset.shrinking = '1';
+      try {
+        const out = await Promise.all([...input.files].map(shrink));
+        const dt = new DataTransfer();
+        out.forEach(f => dt.items.add(f));
+        input.files = dt.files;
+      } finally {
+        delete input.dataset.shrinking;
+        btns.forEach(b => b.disabled = false);
+      }
+    });
+  });
 })();

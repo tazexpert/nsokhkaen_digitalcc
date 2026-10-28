@@ -51,7 +51,7 @@
 
   document.title = `${c.name} · ศูนย์ดิจิทัลชุมชน จังหวัดขอนแก่น`;
   const hasLoc = c.lat !== null && c.lng !== null;
-  const addr = [c.address, c.village, c.subdistrict && 'ต.' + c.subdistrict, c.district && 'อ.' + c.district,
+  const addr = [c.house_no && 'เลขที่ ' + c.house_no, c.moo && 'หมู่ ' + c.moo, c.village, c.address, c.subdistrict && 'ต.' + c.subdistrict, c.district && 'อ.' + c.district,
                 c.province && 'จ.' + c.province, c.postcode].filter(Boolean).join(' ');
   const gmaps = hasLoc ? `https://www.google.com/maps/search/?api=1&query=${c.lat},${c.lng}` : '';
   const directions = hasLoc ? `https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}` : '';

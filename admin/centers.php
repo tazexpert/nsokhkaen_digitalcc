@@ -90,6 +90,7 @@ require __DIR__ . '/partials/header.php';
           <td class="text-end text-nowrap">
             <a href="../center.html?id=<?= (int)$r['id'] ?>" target="_blank" class="btn btn-sm btn-light" title="ดูหน้าเว็บ"><i class="bi bi-eye"></i></a>
             <a href="center_form.php?id=<?= (int)$r['id'] ?>" class="btn btn-sm btn-light" title="แก้ไข"><i class="bi bi-pencil"></i></a>
+            <a href="visit_form.php?center_id=<?= (int)$r['id'] ?>" class="btn btn-sm btn-light text-success" title="ตรวจเยี่ยม"><i class="bi bi-clipboard-check"></i></a>
             <a href="activity_form.php?center_id=<?= (int)$r['id'] ?>" class="btn btn-sm btn-light" title="เพิ่มกิจกรรม"><i class="bi bi-calendar-plus"></i></a>
             <form method="post" class="d-inline" data-confirm="ลบศูนย์ &quot;<?= h($r['name']) ?>&quot; รวมถึงผู้ดูแล ภาพ และกิจกรรมทั้งหมด?">
               <?= csrf_field() ?><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?= (int)$r['id'] ?>">

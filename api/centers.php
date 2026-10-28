@@ -112,6 +112,8 @@ try {
             'code'        => $c['code'],
             'name'        => $c['name'],
             'center_type' => $c['center_type'],
+            'house_no'    => $c['house_no'] ?? '',
+            'moo'         => $c['moo'] ?? '',
             'address'     => $c['address'],
             'village'     => $c['village'],
             'subdistrict' => $c['subdistrict'],

@@ -4,7 +4,7 @@ require_login();
 $pdo = db();
 $id = int_param('id');
 
-$fields = ['code', 'name', 'center_type', 'address', 'village', 'subdistrict', 'district', 'postcode',
+$fields = ['code', 'name', 'center_type', 'house_no', 'moo', 'address', 'village', 'subdistrict', 'district', 'postcode',
            'phone', 'email', 'facebook', 'open_hours', 'services', 'description'];
 $c = array_fill_keys($fields, '') + ['lat' => null, 'lng' => null, 'cover_image' => '', 'is_active' => 1, 'province' => PROVINCE];
 
@@ -157,13 +157,17 @@ require __DIR__ . '/partials/header.php';
           <input name="name" class="form-control" required value="<?= h($c['name']) ?>" placeholder="เช่น ศูนย์ดิจิทัลชุมชน อบต.บ้านค้อ"></div>
         <div class="col-md-6"><label class="form-label">ประเภทหน่วยงานที่ตั้ง</label>
           <input name="center_type" class="form-control" list="types" value="<?= h($c['center_type']) ?>">
-          <datalist id="types"><option>องค์กรปกครองส่วนท้องถิ่น</option><option>สถานศึกษา</option><option>กศน.</option><option>โรงพยาบาลส่งเสริมสุขภาพตำบล</option><option>วัด</option><option>ชุมชน/หมู่บ้าน</option></datalist></div>
+          <datalist id="types"><option>องค์กรปกครองส่วนท้องถิ่น</option><option>สถานศึกษา</option><option>สกร.</option><option>วัด/ชุมชน</option><option>โรงพยาบาลส่งเสริมสุขภาพตำบล</option></datalist></div>
         <div class="col-md-6"><label class="form-label">เวลาเปิดให้บริการ</label>
           <input name="open_hours" class="form-control" value="<?= h($c['open_hours']) ?>" placeholder="จันทร์–ศุกร์ 08:30–16:30"></div>
-        <div class="col-12"><label class="form-label">ที่ตั้ง / เลขที่</label>
-          <input name="address" class="form-control" value="<?= h($c['address']) ?>"></div>
-        <div class="col-md-6"><label class="form-label">หมู่บ้าน / หมู่ที่</label>
+        <div class="col-4 col-md-3"><label class="form-label">เลขที่</label>
+          <input name="house_no" class="form-control" value="<?= h($c['house_no'] ?? '') ?>"></div>
+        <div class="col-4 col-md-3"><label class="form-label">หมู่ที่</label>
+          <input name="moo" class="form-control" value="<?= h($c['moo'] ?? '') ?>"></div>
+        <div class="col-md-6"><label class="form-label">หมู่บ้าน</label>
           <input name="village" class="form-control" value="<?= h($c['village']) ?>"></div>
+        <div class="col-12"><label class="form-label">ที่อยู่เพิ่มเติม / ถนน</label>
+          <input name="address" class="form-control" value="<?= h($c['address']) ?>"></div>
         <div class="col-md-6"><label class="form-label">ตำบล</label>
           <input name="subdistrict" class="form-control" value="<?= h($c['subdistrict']) ?>"></div>
         <div class="col-md-6"><label class="form-label">อำเภอ</label>
@@ -248,7 +252,8 @@ require __DIR__ . '/partials/header.php';
   <div class="col-12 sticky-actions">
     <button class="btn btn-primary btn-lg"><i class="bi bi-save"></i> บันทึกข้อมูลศูนย์</button>
     <a href="centers.php" class="btn btn-light btn-lg">กลับ</a>
-    <?php if ($id): ?><a href="../center.html?id=<?= $id ?>" target="_blank" class="btn btn-outline-secondary btn-lg ms-auto"><i class="bi bi-eye"></i> ดูหน้าเว็บ</a><?php endif; ?>
+    <?php if ($id): ?><a href="visit_form.php?center_id=<?= $id ?>" class="btn btn-outline-success btn-lg ms-auto"><i class="bi bi-clipboard-check"></i> ตรวจเยี่ยม</a>
+    <a href="../center.html?id=<?= $id ?>" target="_blank" class="btn btn-outline-secondary btn-lg"><i class="bi bi-eye"></i> ดูหน้าเว็บ</a><?php endif; ?>
   </div>
 </form>
 

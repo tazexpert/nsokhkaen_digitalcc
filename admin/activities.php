@@ -32,6 +32,7 @@ if ($q !== '') {
 }
 $st = $pdo->prepare(
     "SELECT a.*, c.name AS center_name, c.district,
+            (SELECT v.id FROM visits v WHERE v.activity_id = a.id LIMIT 1) AS visit_id,
             (SELECT COUNT(*) FROM activity_images i WHERE i.activity_id = a.id) AS image_count,
             (SELECT file FROM activity_images i WHERE i.activity_id = a.id ORDER BY i.id LIMIT 1) AS first_image
      FROM activities a JOIN centers c ON c.id = a.center_id" .
@@ -68,6 +69,7 @@ require __DIR__ . '/partials/header.php';
         <tr>
           <td><?php if ($thumb): ?><img src="../<?= h(upload_url($thumb)) ?>" class="thumb" alt=""><?php else: ?><span class="thumb thumb-empty"><i class="bi bi-image"></i></span><?php endif; ?></td>
           <td><a href="activity_form.php?id=<?= (int)$r['id'] ?>" class="fw-semibold text-decoration-none"><?= h($r['title']) ?></a>
+            <?php if ($r['visit_id']): ?> <a href="visit_view.php?id=<?= (int)$r['visit_id'] ?>" class="badge text-bg-success text-decoration-none"><i class="bi bi-clipboard-check"></i> แบบตรวจเยี่ยม</a><?php endif; ?>
             <div class="small text-muted"><?= h($r['organizer']) ?></div></td>
           <td><?= h($r['center_name']) ?><div class="small text-muted">อ.<?= h($r['district']) ?></div></td>
           <td class="text-nowrap"><?= thai_date($r['activity_date']) ?></td>

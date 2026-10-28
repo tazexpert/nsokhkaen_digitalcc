@@ -50,3 +50,19 @@ h1,h2,h3,h4,h5,.brand,.stat-num,.btn,.card-header{font-family:'Prompt','Sarabun'
   .content-body{padding:16px}
   .topbar{padding:12px 16px}
 }
+/* แบบฟอร์มตรวจเยี่ยม */
+.visit-form .card-header{background:#f4f8fd}
+.visit-form .q{font-size:1rem;font-weight:600;margin:6px 0 8px;color:#0b1f3a}
+.choice{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 4px;margin:2px 6px 2px 0;border-radius:10px;cursor:pointer;min-height:40px}
+.choice:hover{background:#f1f5fb}
+.choice input{width:20px;height:20px;flex-shrink:0;accent-color:var(--brand)}
+.choice-row{display:flex;flex-wrap:wrap;align-items:center}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2px 16px}
+.device-grid{display:flex;flex-direction:column;gap:4px}
+.device-row{display:grid;grid-template-columns:260px 1fr;align-items:center;border-bottom:1px dashed #e5e9f0;padding:2px 0}
+.dev-name{font-weight:500}
+@media (max-width:767.98px){
+  .two-col{grid-template-columns:1fr}
+  .device-row{grid-template-columns:1fr}
+  .visit-form .card-body{padding:14px}
+}

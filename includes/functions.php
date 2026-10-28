@@ -102,6 +102,11 @@ function csrf_field(): string
 function check_csrf(): void
 {
     start_session();
+    if (empty($_POST) && (int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+        http_response_code(413);
+        exit('ขนาดข้อมูลรวมใหญ่เกินกว่าที่เซิร์ฟเวอร์รับได้ (post_max_size = ' . ini_get('post_max_size') . ') '
+            . 'กรุณาลดจำนวนภาพต่อครั้ง แล้วกดย้อนกลับเพื่อลองอีกครั้ง');
+    }
     $t = $_POST['csrf'] ?? '';
     if (!is_string($t) || empty($_SESSION['csrf']) || !hash_equals($_SESSION['csrf'], $t)) {
         http_response_code(400);
