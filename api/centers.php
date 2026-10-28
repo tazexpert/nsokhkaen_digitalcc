@@ -141,7 +141,6 @@ try {
         "SELECT c.id, c.code, c.name, c.center_type, c.subdistrict, c.district, c.lat, c.lng, c.phone, c.cover_image,
                 (SELECT file FROM center_images ci WHERE ci.center_id = c.id ORDER BY ci.id LIMIT 1) AS first_image,
                 (SELECT COUNT(*) FROM activities a WHERE a.center_id = c.id) AS activity_count,
-                (SELECT COALESCE(SUM(participants),0) FROM activities a WHERE a.center_id = c.id) AS participant_sum,
                 (SELECT name FROM center_staff s WHERE s.center_id = c.id ORDER BY s.sort_order, s.id LIMIT 1) AS staff_name
          FROM centers c WHERE c.is_active = 1
          ORDER BY c.district, c.name"
@@ -166,7 +165,6 @@ try {
         'centers'      => count($centers),
         'districts'    => count(array_unique(array_filter(array_column($centers, 'district')))),
         'activities'   => array_sum(array_column($centers, 'activity_count')),
-        'participants' => (int)array_sum(array_column($rows, 'participant_sum')),
     ];
 
     out(['centers' => $centers, 'stats' => $stats, 'district_list' => KK_DISTRICTS]);
