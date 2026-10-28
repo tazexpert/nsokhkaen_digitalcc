@@ -75,3 +75,15 @@ h1,h2,h3,h4,h5,.brand,.stat-num,.btn,.card-header{font-family:'Prompt','Sarabun'
 .leaflet-marker-icon:hover .pin{transform:rotate(-45deg) scale(1.12)}
 .visit-centers{max-height:70vh;overflow-y:auto}
 .min-w-0{min-width:0}
+/* จำนวนศูนย์ตามอำเภอ (คลิกเพื่อดูรายชื่อ) */
+.district-list{max-height:520px;overflow-y:auto;margin-right:-8px;padding-right:8px}
+.district summary{list-style:none;cursor:pointer;border-radius:8px;padding:4px 6px;margin:0 -6px 4px}
+.district summary::-webkit-details-marker{display:none}
+.district summary:hover{background:#f1f5fb}
+.district .chev{font-size:.75rem;color:#94a3b8;transition:transform .15s}
+.district[open] .chev{transform:rotate(90deg)}
+.district[open] summary{background:#eef4fc}
+.district-centers{border-left:3px solid #dbe6f5;margin:0 0 10px 8px;padding:4px 0 6px 12px}
+.dc-item{display:flex;flex-wrap:wrap;align-items:center;column-gap:8px;padding:4px 0;border-bottom:1px dashed #e5e9f0}
+.dc-name{font-weight:500;text-decoration:none}
+.dc-tags{margin-left:auto;display:flex;gap:6px;align-items:center}

@@ -17,8 +17,17 @@ $recent = $pdo->query(
      ORDER BY a.activity_date IS NULL, a.activity_date DESC, a.id DESC LIMIT 8"
 )->fetchAll();
 $byDistrict = $pdo->query(
-    "SELECT district, COUNT(*) n FROM centers WHERE district <> '' GROUP BY district ORDER BY n DESC, district LIMIT 10"
+    "SELECT district, COUNT(*) n FROM centers WHERE district <> '' GROUP BY district ORDER BY n DESC, district"
 )->fetchAll();
+// รายชื่อศูนย์ในแต่ละอำเภอ (แสดงเมื่อคลิกที่อำเภอ)
+$centersByDistrict = [];
+foreach ($pdo->query(
+    "SELECT c.id, c.code, c.name, c.subdistrict, c.district, c.lat, c.lng,
+            (SELECT COUNT(*) FROM visits v WHERE v.center_id = c.id) AS visit_count
+     FROM centers c WHERE c.district <> '' ORDER BY c.name"
+) as $r) {
+    $centersByDistrict[$r['district']][] = $r;
+}
 require __DIR__ . '/partials/header.php';
 ?>
 <div class="row g-3 mb-4">
@@ -69,13 +78,36 @@ require __DIR__ . '/partials/header.php';
       </div>
       <div class="card-body">
         <?php $max = max(1, ...array_map(fn($r) => (int)$r['n'], $byDistrict ?: [['n' => 1]])); ?>
+        <p class="small text-muted mb-2"><i class="bi bi-hand-index"></i> คลิกที่อำเภอเพื่อดูรายชื่อศูนย์</p>
+        <div class="district-list">
         <?php foreach ($byDistrict as $r): ?>
-          <div class="bar-row">
-            <span class="bar-label"><?= h($r['district']) ?></span>
-            <span class="bar-track"><span class="bar-fill" style="width:<?= round($r['n'] / $max * 100) ?>%"></span></span>
-            <span class="bar-val"><?= (int)$r['n'] ?></span>
-          </div>
+          <details class="district">
+            <summary class="bar-row">
+              <i class="bi bi-chevron-right chev"></i>
+              <span class="bar-label"><?= h($r['district']) ?></span>
+              <span class="bar-track"><span class="bar-fill" style="width:<?= round($r['n'] / $max * 100) ?>%"></span></span>
+              <span class="bar-val"><?= (int)$r['n'] ?></span>
+            </summary>
+            <div class="district-centers">
+              <?php foreach ($centersByDistrict[$r['district']] ?? [] as $c): ?>
+                <div class="dc-item">
+                  <a href="center_form.php?id=<?= (int)$c['id'] ?>" class="dc-name"><?= h($c['name']) ?></a>
+                  <span class="small text-muted"><?= h(($c['code'] ? $c['code'] . ' · ' : '') . 'ต.' . $c['subdistrict']) ?></span>
+                  <span class="dc-tags">
+                    <?= $c['lat'] !== null ? '<i class="bi bi-geo-alt-fill text-success" title="มีพิกัดแล้ว"></i>' : '<i class="bi bi-geo-alt text-danger" title="ยังไม่มีพิกัด"></i>' ?>
+                    <?php if ($c['visit_count'] > 0): ?><span class="badge text-bg-success">ตรวจ <?= (int)$c['visit_count'] ?> ครั้ง</span>
+                    <?php else: ?><a href="visit_form.php?center_id=<?= (int)$c['id'] ?>" class="badge text-bg-warning text-decoration-none">ยังไม่ตรวจเยี่ยม</a><?php endif; ?>
+                  </span>
+                </div>
+              <?php endforeach; ?>
+              <div class="d-flex gap-3 small pt-1">
+                <a href="centers.php?district=<?= urlencode($r['district']) ?>"><i class="bi bi-building"></i> จัดการศูนย์ในอำเภอนี้</a>
+                <a href="visits.php?district=<?= urlencode($r['district']) ?>"><i class="bi bi-clipboard-check"></i> ตรวจเยี่ยม</a>
+              </div>
+            </div>
+          </details>
         <?php endforeach; ?>
+        </div>
         <?php if (!$byDistrict): ?><p class="text-muted mb-0">ยังไม่มีข้อมูล</p><?php endif; ?>
       </div>
     </div>
