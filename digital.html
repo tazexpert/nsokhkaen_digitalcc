@@ -22,9 +22,9 @@
     <a class="logo" href="digital.html"><img class="logo-mark" src="assets/img/logo.png" alt="โลโก้ศูนย์ดิจิทัลชุมชน">
       <span>ศูนย์ดิจิทัลชุมชน<small>จังหวัดขอนแก่น</small></span></a>
     <div class="nav-links">
-      <a href="#map-section">แผนที่</a>
-      <a href="#centers">ศูนย์ทั้งหมด</a>
       <a href="#activities">กิจกรรม</a>
+      <a href="#centers">ศูนย์ทั้งหมด</a>
+      <a href="#map-section">แผนที่</a>
       <a href="admin/login.php" class="keep" title="สำหรับเจ้าหน้าที่"><i class="bi bi-lock"></i></a>
     </div>
   </div>
@@ -54,12 +54,13 @@
 
   <div id="errorBox"></div>
 
-  <section id="map-section">
+  <section id="activities">
     <div class="section-head">
-      <div><div class="kicker">MAP</div><h2>แผนที่ศูนย์ดิจิทัลชุมชน</h2>
-        <p>คลิกหมุดเพื่อดูข้อมูลศูนย์ · <span id="mapCount"></span></p></div>
+      <div><div class="kicker">ACTIVITIES</div><h2>กิจกรรมล่าสุด</h2><p>กิจกรรมที่จัดทำร่วมกับศูนย์ดิจิทัลชุมชน</p></div>
     </div>
-    <div class="map-wrap"><div id="map"></div></div>
+    <div class="act-grid" id="actGrid">
+      <div class="loading" style="grid-column:1/-1"><div class="spinner"></div>กำลังโหลดกิจกรรม…</div>
+    </div>
   </section>
 
   <section id="centers">
@@ -73,11 +74,12 @@
     <div class="more" id="moreWrap" hidden><button class="btn btn-light" id="moreBtn">แสดงเพิ่มเติม <i class="bi bi-chevron-down"></i></button></div>
   </section>
 
-  <section id="activities">
+  <section id="map-section">
     <div class="section-head">
-      <div><div class="kicker">ACTIVITIES</div><h2>กิจกรรมล่าสุด</h2><p>กิจกรรมที่จัดทำร่วมกับศูนย์ดิจิทัลชุมชน</p></div>
+      <div><div class="kicker">MAP</div><h2>แผนที่ศูนย์ดิจิทัลชุมชน</h2>
+        <p>คลิกหมุดเพื่อดูข้อมูลศูนย์ · <span id="mapCount"></span></p></div>
     </div>
-    <div class="act-grid" id="actGrid"></div>
+    <div class="map-wrap"><div id="map"></div></div>
   </section>
 </main>
 
