@@ -8,7 +8,6 @@ $stats = $pdo->query(
     "SELECT (SELECT COUNT(*) FROM centers) AS centers,
             (SELECT COUNT(DISTINCT district) FROM centers WHERE district <> '') AS districts,
             (SELECT COUNT(*) FROM activities) AS activities,
-            (SELECT COALESCE(SUM(participants),0) FROM activities) AS participants,
             (SELECT COUNT(*) FROM centers WHERE lat IS NULL OR lng IS NULL) AS no_location"
 )->fetch();
 $recent = $pdo->query(
@@ -35,9 +34,8 @@ require __DIR__ . '/partials/header.php';
       ['centers', 'bi-building', 'ศูนย์ทั้งหมด', 'primary'],
       ['districts', 'bi-geo-alt', 'อำเภอที่มีศูนย์', 'success'],
       ['activities', 'bi-calendar-check', 'กิจกรรม', 'warning'],
-      ['participants', 'bi-people', 'ผู้เข้าร่วม (คน)', 'info'],
   ] as [$k, $icon, $label, $color]): ?>
-  <div class="col-6 col-xl-3">
+  <div class="col-12 col-sm-4">
     <div class="stat-card">
       <span class="stat-icon text-bg-<?= $color ?>"><i class="bi <?= $icon ?>"></i></span>
       <div><div class="stat-num"><?= number_format((int)$stats[$k]) ?></div><div class="stat-label"><?= $label ?></div></div>
@@ -63,7 +61,7 @@ require __DIR__ . '/partials/header.php';
           <a class="list-group-item list-group-item-action" href="activity_form.php?id=<?= (int)$r['id'] ?>">
             <div class="d-flex"><strong class="me-2"><?= h($r['title']) ?></strong>
               <span class="ms-auto small text-muted text-nowrap"><?= thai_date($r['activity_date']) ?></span></div>
-            <div class="small text-muted"><?= h($r['center_name']) ?> · <?= number_format((int)$r['participants']) ?> คน</div>
+            <div class="small text-muted"><?= h($r['center_name']) ?><?= $r['participants'] > 0 ? ' · ' . number_format((int)$r['participants']) . ' คน' : '' ?></div>
           </a>
         <?php endforeach; ?>
         <?php if (!$recent): ?><div class="list-group-item text-muted">ยังไม่มีกิจกรรม</div><?php endif; ?>
