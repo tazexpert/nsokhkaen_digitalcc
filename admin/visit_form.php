@@ -21,28 +21,9 @@ if ($id) {
 }
 $centerId = $visit ? (int)$visit['center_id'] : int_param('center_id');
 
-// ยังไม่ได้เลือกศูนย์ → แสดงหน้าเลือกศูนย์
+// ยังไม่ได้เลือกศูนย์ → ไปหน้าค้นหาศูนย์ (กรองตามอำเภอได้)
 if (!$centerId) {
-    $centers = $pdo->query('SELECT id, code, name, district FROM centers ORDER BY district, name')->fetchAll();
-    $pageTitle = 'ตรวจเยี่ยมศูนย์ — เลือกศูนย์';
-    $active = 'visits';
-    require __DIR__ . '/partials/header.php';
-    ?>
-    <form class="card" style="max-width:640px">
-      <div class="card-body">
-        <label class="form-label fw-semibold">เลือกศูนย์ดิจิทัลชุมชนที่ตรวจเยี่ยม</label>
-        <select name="center_id" class="form-select form-select-lg mb-3" required>
-          <option value="">— เลือกศูนย์ —</option>
-          <?php $last = null; foreach ($centers as $c): if ($c['district'] !== $last): if ($last !== null) echo '</optgroup>'; $last = $c['district']; ?><optgroup label="อ.<?= h($c['district']) ?>"><?php endif; ?>
-            <option value="<?= (int)$c['id'] ?>"><?= h(($c['code'] ? $c['code'] . ' · ' : '') . $c['name']) ?></option>
-          <?php endforeach; if ($last !== null) echo '</optgroup>'; ?>
-        </select>
-        <button class="btn btn-primary btn-lg w-100"><i class="bi bi-clipboard-check"></i> เริ่มกรอกแบบฟอร์ม</button>
-      </div>
-    </form>
-    <?php
-    require __DIR__ . '/partials/footer.php';
-    exit;
+    redirect('visits.php#centers');
 }
 
 $st = $pdo->prepare('SELECT * FROM centers WHERE id = ?');
@@ -64,6 +45,25 @@ $v = $visit ?: [
     'inspector_name' => $me['fullname'], 'inspector_position' => '', 'activity_id' => null,
 ];
 $d = $visit ? (json_decode((string)$visit['data'], true) ?: []) : [];
+
+// การตรวจครั้งก่อน ๆ ของศูนย์นี้ (ตรวจได้หลายครั้ง)
+$st = $pdo->prepare('SELECT id, visit_date, data FROM visits WHERE center_id = ? ORDER BY visit_date, id');
+$st->execute([$centerId]);
+$prevVisits = $st->fetchAll();
+if ($visit) {
+    $visitNo = 1 + count(array_filter($prevVisits, fn($p) => $p['visit_date'] < $visit['visit_date']
+        || ($p['visit_date'] === $visit['visit_date'] && (int)$p['id'] < (int)$visit['id'])));
+} else {
+    $visitNo = count($prevVisits) + 1;
+}
+$lastVisit = $visit ? null : (end($prevVisits) ?: null);
+// ตรวจครั้งใหม่: ใช้คำตอบส่วนที่ 1–3 จากครั้งล่าสุดเป็นค่าเริ่มต้น (เมื่อผู้ใช้เลือก)
+$copied = false;
+if (!$visit && $lastVisit && !empty($_GET['copy']) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
+    $d = json_decode((string)$lastVisit['data'], true) ?: [];
+    unset($d['snapshot']);
+    $copied = true;
+}
 $d += ['groups' => [], 'purposes' => [], 'safety' => []];
 $val = fn(string $k) => h($d[$k] ?? '');
 $is = fn(string $k, $opt) => (($d[$k] ?? '') === $opt) ? 'checked' : '';
@@ -237,7 +237,7 @@ if (!empty($v['activity_id'])) {
 $typeSel = visit_type_option((string)$c['center_type']);
 $typeOther = $typeSel === '' ? (string)$c['center_type'] : '';
 
-$pageTitle = ($visit ? 'แก้ไขการตรวจเยี่ยม' : 'ตรวจเยี่ยมศูนย์') . ' · ' . $c['name'];
+$pageTitle = ($visit ? 'แก้ไขการตรวจเยี่ยม' : 'ตรวจเยี่ยมศูนย์') . ' ครั้งที่ ' . $visitNo . ' · ' . $c['name'];
 $active = 'visits';
 require __DIR__ . '/partials/header.php';
 ?>
@@ -251,7 +251,20 @@ require __DIR__ . '/partials/header.php';
       <div class="text-center mb-3">
         <h2 class="h5 mb-0">แบบฟอร์มการตรวจเยี่ยมศูนย์ดิจิทัลชุมชน</h2>
         <div class="text-muted">จังหวัด<?= h(PROVINCE) ?></div>
+        <span class="badge text-bg-success mt-1">การตรวจเยี่ยมครั้งที่ <?= $visitNo ?></span>
       </div>
+      <?php if ($lastVisit): ?>
+        <div class="alert alert-<?= $copied ? 'success' : 'info' ?> small py-2 d-flex flex-wrap gap-2 align-items-center">
+          <span><i class="bi bi-clock-history"></i> ตรวจเยี่ยมครั้งล่าสุดเมื่อ <strong><?= thai_date($lastVisit['visit_date']) ?></strong>
+            (<a href="visit_view.php?id=<?= (int)$lastVisit['id'] ?>" target="_blank">ดูผล</a>)</span>
+          <?php if ($copied): ?>
+            <span>— ใช้คำตอบส่วนที่ 1–3 จากครั้งล่าสุดเป็นค่าเริ่มต้นแล้ว ตรวจสอบและแก้ไขให้ตรงกับปัจจุบัน</span>
+            <a href="visit_form.php?center_id=<?= $centerId ?>" class="ms-auto">เริ่มจากแบบฟอร์มว่าง</a>
+          <?php else: ?>
+            <a href="visit_form.php?center_id=<?= $centerId ?>&amp;copy=1" class="btn btn-sm btn-outline-primary ms-auto"><i class="bi bi-files"></i> ใช้คำตอบจากครั้งล่าสุดเป็นค่าเริ่มต้น</a>
+          <?php endif; ?>
+        </div>
+      <?php endif; ?>
       <div class="row g-2 justify-content-end">
         <div class="col-7 col-md-3"><label class="form-label">วันที่ตรวจเยี่ยม</label>
           <input type="date" name="visit_date" class="form-control" required value="<?= h($v['visit_date']) ?>"></div>

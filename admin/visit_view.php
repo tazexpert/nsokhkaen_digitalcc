@@ -20,6 +20,9 @@ $s = ($d['snapshot'] ?? []) + [
     'subdistrict' => $v['subdistrict'], 'district' => $v['district'], 'center_type' => $v['center_type'],
     'staff_name' => '', 'staff_phone' => '', 'staff_line' => '',
 ];
+$st = $pdo->prepare('SELECT COUNT(*) FROM visits WHERE center_id = ? AND (visit_date < ? OR (visit_date = ? AND id <= ?))');
+$st->execute([$v['center_id'], $v['visit_date'], $v['visit_date'], $v['id']]);
+$visitNo = (int)$st->fetchColumn();
 $photos = [];
 if ($v['activity_id']) {
     $st = $pdo->prepare('SELECT file FROM activity_images WHERE activity_id = ? ORDER BY id');
@@ -80,7 +83,8 @@ $typeSel = visit_type_option((string)$s['center_type']);
 </head>
 <body>
 <div class="toolbar">
-  <a href="visits.php"><i class="bi bi-arrow-left"></i> กลับ</a>
+  <a href="visits.php?center_id=<?= (int)$v['center_id'] ?>#history"><i class="bi bi-arrow-left"></i> กลับ</a>
+  <a href="visit_form.php?center_id=<?= (int)$v['center_id'] ?>&amp;copy=1"><i class="bi bi-clipboard-plus"></i> ตรวจเยี่ยมครั้งถัดไป</a>
   <a href="visit_form.php?id=<?= (int)$v['id'] ?>"><i class="bi bi-pencil"></i> แก้ไข</a>
   <a href="../center.html?id=<?= (int)$v['center_id'] ?>#act-<?= (int)$v['activity_id'] ?>" target="_blank"><i class="bi bi-eye"></i> ดูบนเว็บไซต์</a>
   <button class="primary" onclick="print()"><i class="bi bi-printer"></i> พิมพ์ / บันทึก PDF</button>
@@ -90,7 +94,7 @@ $typeSel = visit_type_option((string)$s['center_type']);
   <img src="../assets/img/logo.png" alt="" style="display:block;height:54px;margin:0 auto 6px">
   <h1>แบบฟอร์มการตรวจเยี่ยมศูนย์ดิจิทัลชุมชน</h1>
   <div class="sub">จังหวัด<?= h(PROVINCE) ?></div>
-  <div class="right">วันที่ตรวจเยี่ยม <?= $fill(sprintf('%d/%d/%d', $dd, $m, $y + 543)) ?> เวลา <?= $fill($v['visit_time'] ? substr($v['visit_time'], 0, 5) : '') ?> น.</div>
+  <div class="right">ครั้งที่ <?= $fill($visitNo, '30px') ?> &nbsp; วันที่ตรวจเยี่ยม <?= $fill(sprintf('%d/%d/%d', $dd, $m, $y + 543)) ?> เวลา <?= $fill($v['visit_time'] ? substr($v['visit_time'], 0, 5) : '') ?> น.</div>
 
   <div class="sec">ข้อมูลทั่วไปของศูนย์ดิจิทัลชุมชน</div>
   <div>ชื่อศูนย์ดิจิทัลชุมชน <?= $fill($s['name'], '60%') ?></div>
