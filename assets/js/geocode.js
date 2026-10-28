@@ -28,7 +28,7 @@
     let mk = markers.get(id);
     if (!p) { if (mk) { map.removeLayer(mk); markers.delete(id); } return; }
     if (!mk) {
-      mk = L.marker([p.lat, p.lng], { draggable: true, title: tr.dataset.name }).addTo(map).bindTooltip(tr.dataset.name);
+      mk = L.marker([p.lat, p.lng], { draggable: true, title: tr.dataset.name, icon: dccPin() }).addTo(map).bindTooltip(tr.dataset.name);
       mk.on('dragend', () => {
         const q = mk.getLatLng();
         tr.querySelector('.coord').value = q.lat.toFixed(7) + ', ' + q.lng.toFixed(7);

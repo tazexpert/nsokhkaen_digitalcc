@@ -66,3 +66,10 @@ h1,h2,h3,h4,h5,.brand,.stat-num,.btn,.card-header{font-family:'Prompt','Sarabun'
   .device-row{grid-template-columns:1fr}
   .visit-form .card-body{padding:14px}
 }
+
+/* หมุดแผนที่: หยดน้ำสีขาว ขอบเขียว มีโลโก้ (ปลายหมุด = มุมล่างที่หมุน 45°) */
+.pin{width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#fff;border:3px solid #00a561;box-shadow:0 4px 12px rgba(0,0,0,.35);display:grid;place-items:center;transition:transform .15s}
+.leaflet-container .pin img{transform:rotate(45deg);width:28px;height:auto;pointer-events:none}
+.pin.big{width:56px;height:56px;border-width:4px}
+.leaflet-container .pin.big img{width:40px}
+.leaflet-marker-icon:hover .pin{transform:rotate(-45deg) scale(1.12)}

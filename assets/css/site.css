@@ -73,10 +73,12 @@ section{padding:64px 0 0}
 .map-wrap{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;border:1px solid var(--line)}
 #map{height:520px}
 @media(max-width:700px){#map{height:420px}}
-.pin{width:34px;height:34px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--brand);border:3px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,.3);display:grid;place-items:center}
-.pin i{transform:rotate(45deg);color:#fff;font-size:15px}
-.pin.big{width:46px;height:46px;background:#e11d48}
-.pin.big i{font-size:20px}
+/* หมุดแผนที่: หยดน้ำสีขาว ขอบเขียว มีโลโก้ (ปลายหมุด = มุมล่างที่หมุน 45°) */
+.pin{width:40px;height:40px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#fff;border:3px solid #00a561;box-shadow:0 4px 12px rgba(0,0,0,.35);display:grid;place-items:center;transition:transform .15s}
+.leaflet-container .pin img{transform:rotate(45deg);width:28px;height:auto;pointer-events:none}
+.pin.big{width:56px;height:56px;border-width:4px}
+.leaflet-container .pin.big img{width:40px}
+.leaflet-marker-icon:hover .pin{transform:rotate(-45deg) scale(1.12)}
 .leaflet-popup-content-wrapper{border-radius:14px;padding:0;overflow:hidden}
 .leaflet-popup-content{margin:0;width:240px!important;font-family:'Sarabun',sans-serif}
 .popup img{width:100%;height:120px;object-fit:cover}
@@ -84,8 +86,8 @@ section{padding:64px 0 0}
 .popup h4{font-size:1rem;margin:0 0 2px}
 .popup .m{color:var(--muted);font-size:.85rem;margin-bottom:8px}
 .popup a.btn{padding:6px 12px;font-size:.85rem;color:#fff}
-.marker-cluster-small,.marker-cluster-medium,.marker-cluster-large{background:rgba(15,95,194,.25)!important}
-.marker-cluster-small div,.marker-cluster-medium div,.marker-cluster-large div{background:var(--brand)!important;color:#fff;font-family:'Prompt',sans-serif}
+.marker-cluster-small,.marker-cluster-medium,.marker-cluster-large{background:rgba(0,165,97,.25)!important}
+.marker-cluster-small div,.marker-cluster-medium div,.marker-cluster-large div{background:#00a561!important;color:#fff;font-family:'Prompt',sans-serif}
 
 /* ---------- Filters / cards ---------- */
 .filters{display:flex;gap:8px;flex-wrap:wrap}

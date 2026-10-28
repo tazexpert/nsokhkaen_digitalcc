@@ -1,3 +1,11 @@
+// หมุดโลโก้สำหรับแผนที่หลังบ้าน (ใช้ใน admin.js และ geocode.js)
+window.dccPin = function () {
+  return L.divIcon({
+    className: '', html: '<div class="pin"><img src="../assets/img/logo.png" alt=""></div>',
+    iconSize: [40, 40], iconAnchor: [20, 48], popupAnchor: [0, -50], tooltipAnchor: [20, -24],
+  });
+};
+
 // ยืนยันก่อนลบ
 document.querySelectorAll('form[data-confirm]').forEach(f => {
   f.addEventListener('submit', e => { if (!confirm(f.dataset.confirm)) e.preventDefault(); });
@@ -36,7 +44,7 @@ document.querySelectorAll('input[type=file][data-preview]').forEach(input => {
   let marker = null;
   function place(lat, lng, pan) {
     if (!marker) {
-      marker = L.marker([lat, lng], { draggable: true }).addTo(map);
+      marker = L.marker([lat, lng], { draggable: true, icon: dccPin() }).addTo(map);
       marker.on('dragend', () => { const p = marker.getLatLng(); setInputs(p.lat, p.lng); });
     } else marker.setLatLng([lat, lng]);
     if (pan) map.setView([lat, lng], Math.max(map.getZoom(), 15));

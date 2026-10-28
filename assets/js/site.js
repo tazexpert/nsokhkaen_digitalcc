@@ -24,13 +24,16 @@ async function api(params = '') {
   return data;
 }
 
-function pinIcon(big) {
+/** หมุดโลโก้ศูนย์ดิจิทัลชุมชน — ปลายหมุดอยู่ที่ 1.207 × ขนาด (มุมของสี่เหลี่ยมที่หมุน 45°) */
+function pinIcon(big, base = '') {
+  const s = big ? 56 : 40;
   return L.divIcon({
     className: '',
-    html: `<div class="pin${big ? ' big' : ''}"><i class="bi bi-wifi"></i></div>`,
-    iconSize: big ? [46, 46] : [34, 34],
-    iconAnchor: big ? [23, 46] : [17, 34],
-    popupAnchor: [0, big ? -44 : -32],
+    html: `<div class="pin${big ? ' big' : ''}"><img src="${base}assets/img/logo.png" alt=""></div>`,
+    iconSize: [s, s],
+    iconAnchor: [s / 2, Math.round(s * 1.207)],
+    popupAnchor: [0, -Math.round(s * 1.25)],
+    tooltipAnchor: [s / 2, -Math.round(s * 0.6)],
   });
 }
 
